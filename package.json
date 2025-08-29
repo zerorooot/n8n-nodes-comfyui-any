@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-comfyui-any",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "This node allows you to execute ComfyUI workflows and Support any workflow output",
     "keywords":
     [

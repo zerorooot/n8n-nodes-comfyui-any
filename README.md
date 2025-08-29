@@ -15,7 +15,8 @@ Suppose our custom node of comfyui is as follows:
 <summary>comfyui <b>workflow</b> and sample images</summary>
 {"id":"bdd2c995-cc7a-416b-b119-3793579a40b2","revision":0,"last_node_id":14,"last_link_id":11,"nodes":[{"id":13,"type":"StringLength","pos":[1412.6959228515625,726.2750244140625],"size":[400,200],"flags":{},"order":0,"mode":0,"inputs":[{"localized_name":"string","name":"string","type":"STRING","widget":{"name":"string"},"link":null}],"outputs":[{"localized_name":"length","name":"length","type":"INT","links":[11]}],"properties":{"cnr_id":"comfy-core","ver":"0.3.52","Node name for S&R":"StringLength"},"widgets_values":["string length"]},{"id":14,"type":"easy showAnything","pos":[1890.91845703125,766.418212890625],"size":[140,76],"flags":{},"order":1,"mode":0,"inputs":[{"localized_name":"输入任何","name":"anything","shape":7,"type":"*","link":11}],"outputs":[{"localized_name":"输出","name":"output","type":"*","links":null}],"properties":{"cnr_id":"comfyui-easy-use","ver":"93254a4c073431ad45be5bef0e66bd38f40a2583","Node name for S&R":"easy showAnything"},"widgets_values":["13"]}],"links":[[11,13,0,14,0,"*"]],"groups":[],"config":{},"extra":{"ds":{"scale":0.8954302432552947,"offset":[-819.6894744665262,-274.54124324273243]}},"version":0.4}
 </details>
-![demo](demo.png)
+<img src="demo.png" alt="demo" style="zoom:60%;" />
+
 The final result will be returned
 
 ```json

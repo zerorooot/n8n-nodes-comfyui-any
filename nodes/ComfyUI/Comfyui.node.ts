@@ -5,7 +5,6 @@ import {
 	INodeTypeDescription,
 } from 'n8n-workflow';
 import { NodeApiError } from 'n8n-workflow';
-import { Jimp } from 'jimp';
 
 export class Comfyui implements INodeType {
 	description: INodeTypeDescription = {
@@ -14,7 +13,7 @@ export class Comfyui implements INodeType {
 		icon: 'file:comfyui.svg',
 		group: ['transform'],
 		version: 1,
-		description: 'Execute ComfyUI workflows',
+		description: 'Execute ComfyUI workflows and return promptResult outputs',
 		defaults: {
 			name: 'ComfyUI',
 		},
@@ -39,39 +38,6 @@ export class Comfyui implements INodeType {
 				description: 'The ComfyUI workflow in JSON format',
 			},
 			{
-				displayName: 'Output Format',
-				name: 'outputFormat',
-				type: 'options',
-				options: [
-					{
-						name: 'JPEG',
-						value: 'jpeg',
-					},
-					{
-						name: 'PNG',
-						value: 'png',
-					},
-				],
-				default: 'jpeg',
-				description: 'The format of the output images',
-			},
-			{
-				displayName: 'JPEG Quality',
-				name: 'jpegQuality',
-				type: 'number',
-				typeOptions: {
-					minValue: 1,
-					maxValue: 100
-				},
-				default: 80,
-				description: 'Quality of JPEG output (1-100)',
-				displayOptions: {
-					show: {
-						outputFormat: ['jpeg'],
-					},
-				},
-			},
-			{
 				displayName: 'Timeout',
 				name: 'timeout',
 				type: 'number',
@@ -85,11 +51,6 @@ export class Comfyui implements INodeType {
 		const credentials = await this.getCredentials('comfyUIApi');
 		const workflow = this.getNodeParameter('workflow', 0) as string;
 		const timeout = this.getNodeParameter('timeout', 0) as number;
-		const outputFormat = this.getNodeParameter('outputFormat', 0) as string;
-		let jpegQuality: number
-		if (outputFormat === 'jpeg') {
-			jpegQuality = this.getNodeParameter('jpegQuality', 0) as number;
-		}
 
 		const apiUrl = credentials.apiUrl as string;
 		const apiKey = credentials.apiKey as string;
@@ -172,66 +133,9 @@ export class Comfyui implements INodeType {
 						throw new NodeApiError(this.getNode(), { message: '[ComfyUI] No outputs found in workflow result' });
 					}
 
-					// Get all image outputs
-					const outputs = await Promise.all(
-						Object.values(promptResult.outputs)
-							.flatMap((nodeOutput: any) => nodeOutput.images || [])
-							.filter((image: any) => image.type === 'output' || image.type === 'temp')
-							.map(async (file: any) => {
-								console.log(`[ComfyUI] Downloading ${file.type} image:`, file.filename);
-								let imageUrl = `${apiUrl}/view?filename=${file.filename}&subfolder=${file.subfolder || ''}&type=${file.type || ''}`;
+					console.log('[ComfyUI] All promptResult outputs: ',promptResult.outputs);
 
-
-								try {
-									const imageData = await this.helpers.request({
-										method: 'GET',
-										url: imageUrl,
-										encoding: null,
-										headers,
-									});
-									const image = await Jimp.read(Buffer.from(imageData, 'base64'));
-									let outputBuffer: Buffer;
-									if (outputFormat === 'jpeg') {
-										outputBuffer = await image.getBuffer("image/jpeg", { quality: jpegQuality });
-									} else {
-										outputBuffer = await image.getBuffer(`image/png`);
-									}
-									const outputBase64 = outputBuffer.toString('base64');
-									const item: INodeExecutionData = {
-										json: {
-											filename: file.filename,
-											type: file.type,
-											subfolder: file.subfolder || '',
-											data: outputBase64,
-										},
-										binary: {
-											data: {
-												fileName: file.filename,
-												data: outputBase64,
-												fileType: 'image',
-												fileSize: Math.round(outputBuffer.length / 1024 * 10) / 10 + " kB",
-												fileExtension: outputFormat,
-												mimeType: `image/${outputFormat}`,
-											}
-										}
-									};
-									return item
-								} catch (error) {
-									console.error(`[ComfyUI] Failed to download image ${file.filename}:`, error);
-									return {
-										json: {
-											filename: file.filename,
-											type: file.type,
-											subfolder: file.subfolder || '',
-											error: error.message,
-										},
-									};
-								}
-							})
-					);
-
-					console.log('[ComfyUI] All images downloaded successfully');
-					return [outputs];
+					return [this.helpers.returnJsonArray(promptResult.outputs)];
 				}
 			}
 			throw new NodeApiError(this.getNode(), { message: `Execution timeout after ${timeout} minutes` });

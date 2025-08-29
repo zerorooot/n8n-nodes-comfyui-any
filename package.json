@@ -1,21 +1,17 @@
 {
-  "name": "n8n-nodes-comfyui",
-  "version": "0.0.6",
-  "description": "n8n node to integrate with ComfyUI stable diffusion workflows",
+  "name": "n8n-nodes-comfyui-any",
+  "version": "0.0.1",
+  "description": "This node allows you to execute ComfyUI workflows and Support any workflow output",
   "keywords": [
     "n8n-community-node-package",
     "comfyui",
-    "stable-diffusion"
+    "any"
   ],
   "license": "MIT",
   "homepage": "",
-  "author": {
-    "name": "mason276752",
-    "email": "mason276752@gmail.com"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mason276752/n8n-nodes-comfyui.git"
+    "url": "https://github.com/zerorooot/n8n-nodes-comfyui-any.git"
   },
   "engines": {
     "node": ">=18.10",
@@ -55,8 +51,5 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
-  },
-  "dependencies": {
-    "jimp": "^1.6.0"
   }
 }

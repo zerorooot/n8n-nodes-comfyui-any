@@ -6,16 +6,16 @@ import {
 } from 'n8n-workflow';
 import { NodeApiError } from 'n8n-workflow';
 
-export class Comfyui implements INodeType {
+export class ComfyuiAny implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'ComfyUI',
-		name: 'comfyui',
+		displayName: 'ComfyUI Output Any',
+		name: 'comfyuiAny',
 		icon: 'file:comfyui.svg',
 		group: ['transform'],
 		version: 1,
 		description: 'Execute ComfyUI workflows and return promptResult outputs',
 		defaults: {
-			name: 'ComfyUI',
+			name: 'ComfyUI Output Any',
 		},
 		credentials: [
 			{

@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-comfyui-any",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "This node allows you to execute ComfyUI workflows and Support any workflow output",
   "keywords": [
     "n8n-community-node-package",
@@ -41,7 +41,7 @@
       "dist/credentials/ComfyUIApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ComfyUI/Comfyui.node.js"
+      "dist/nodes/ComfyUI/ComfyuiAny.node.js"
     ]
   },
   "devDependencies": {

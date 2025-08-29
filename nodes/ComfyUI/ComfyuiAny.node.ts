@@ -133,7 +133,7 @@ export class ComfyuiAny implements INodeType {
 						throw new NodeApiError(this.getNode(), { message: '[ComfyUI] No outputs found in workflow result' });
 					}
 
-					console.log('[ComfyUI] All promptResult outputs: ',promptResult.outputs);
+					console.log('[ComfyUI] All promptResult outputs: ',JSON.stringify(promptResult.outputs));
 
 					return [this.helpers.returnJsonArray(promptResult.outputs)];
 				}

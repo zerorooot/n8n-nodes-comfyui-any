@@ -15,6 +15,12 @@ This package provides n8n nodes to integrate with [ComfyUI](https://github.com/c
 
 ## Node Configuration
 
+## Installation
+
+```bash
+npm install n8n-nodes-comfyui-any
+```
+
 ### ComfyUI Node
 
 This node allows you to execute ComfyUI workflows and Support any workflow output
